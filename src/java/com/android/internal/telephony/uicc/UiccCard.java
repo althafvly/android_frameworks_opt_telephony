@@ -208,13 +208,14 @@ public class UiccCard {
         return false;
     }
 
-    private void createAndUpdateCatServiceLocked() {
+
+    protected void createAndUpdateCatService() {
         if (mUiccApplications.length > 0 && mUiccApplications[0] != null) {
             // Initialize or Reinitialize CatService
             if (mCatService == null) {
                 mCatService = CatService.getInstance(mCi, mContext, this, mPhoneId);
             } else {
-                mCatService.update(mCi, mContext, this);
+                ((CatService)mCatService).update(mCi, mContext, this);
             }
         } else {
             if (mCatService != null) {
@@ -222,6 +223,10 @@ public class UiccCard {
             }
             mCatService = null;
         }
+    }
+
+    public CatService getCatService() {
+        return mCatService;
     }
 
     @Override
